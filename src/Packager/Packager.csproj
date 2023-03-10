@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Robbot.Veracode.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
-    <AssemblyName>veracode-packager</AssemblyName>
+    <AssemblyName>veracode-package</AssemblyName>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>veracode-package</ToolCommandName>
   </PropertyGroup>

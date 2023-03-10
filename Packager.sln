@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33424.131
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "src\Core\Core.csproj", "{EFA0AE74-D789-42DF-8912-5052C4B3D74F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Packager", "src\Packager\Packager.csproj", "{6A5C4E32-83A1-42C2-A4ED-EF8533D80C70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet", "src\Dotnet\Dotnet.csproj", "{84039B41-95F3-40B8-9234-63D37541BF1B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFA0AE74-D789-42DF-8912-5052C4B3D74F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFA0AE74-D789-42DF-8912-5052C4B3D74F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFA0AE74-D789-42DF-8912-5052C4B3D74F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFA0AE74-D789-42DF-8912-5052C4B3D74F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A5C4E32-83A1-42C2-A4ED-EF8533D80C70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A5C4E32-83A1-42C2-A4ED-EF8533D80C70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A5C4E32-83A1-42C2-A4ED-EF8533D80C70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A5C4E32-83A1-42C2-A4ED-EF8533D80C70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84039B41-95F3-40B8-9234-63D37541BF1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84039B41-95F3-40B8-9234-63D37541BF1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84039B41-95F3-40B8-9234-63D37541BF1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84039B41-95F3-40B8-9234-63D37541BF1B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {95204155-9A07-42C5-BF3F-DC6947C9D880}
+	EndGlobalSection
+EndGlobal

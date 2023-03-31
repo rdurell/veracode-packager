@@ -64,9 +64,9 @@ jobs:
       run: tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages
       working-directory: src/AzureDevOpsTask
 
-    - name: 'Prepare ZIP release: mkdir'
+    - name: 'Create release target directory'
       run: |
-        mkdir -p tmpzip/net7.0
+        mfdir -p src/target/packages/
 
     - name: 'Pack ZIP release'
       run: zip -r src/target/packages/VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip .

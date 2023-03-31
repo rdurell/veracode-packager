@@ -3,7 +3,7 @@ name: CI-CD
 on: [push, pull_request]
 
 env:
-  solution: 'src\Packager.sln'
+  solution: 'Packager.sln'
   buildPlatform: Any CPU
   buildConfiguration: Release
   version: 0.1.0

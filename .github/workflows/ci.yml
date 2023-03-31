@@ -41,7 +41,7 @@ jobs:
       run: dotnet restore ${{ env.solution }}
 
     - name: dotnet publish Packager
-      run: dotnet publish -c ${{ env.BuildConfiguration }} Packager.csproj
+      run: dotnet publish -c ${{ env.BuildConfiguration }}
       working-directory: src/Packager
 
     - name: 'Prepare VSIX release: NetCore'

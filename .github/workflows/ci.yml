@@ -66,7 +66,7 @@ jobs:
 
     - name: 'Create release target directory'
       run: |
-        mfdir -p src/target/packages/
+        mfdir -p src/target/packages
 
     - name: 'Pack ZIP release'
       run: zip -r src/target/packages/VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip .

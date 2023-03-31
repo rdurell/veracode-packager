@@ -66,17 +66,15 @@ jobs:
 
     - name: 'Prepare ZIP release: mkdir'
       run: |
-        mkdir -p tmpzip\net7.0
-
-    - name: 'Prepare ZIP release'
-      run: |
-         cp -r -u 'src/Packager/bin/Release/net7.0/publish/*' 'tmpzip/net7.0'
+        mkdir -p tmpzip/net7.0
 
     - name: 'Pack ZIP release'
-      run: Compress-Archive -Path tmpzip/* -DestinationPath src/target/packages/VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip
+      run: zip -r src/target/packages/VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip .
+      working-directory: src/Packager/bin/Release/net7.0/publish
 
     - name: 'NuGet pack dotnet-veracodepackager-globaltool'
-      run: dotnet pack .\Packager\Packager.csproj -c Release -o src/target/packages
+      run: dotnet pack -c Release -o src/target/packages
+      working-directory: src/Packager
 
     - name: 'Publish Artifact: packages'
       uses: actions/upload-artifact@v3

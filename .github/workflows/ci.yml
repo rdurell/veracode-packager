@@ -1,0 +1,83 @@
+name: CI-CD
+
+on: [push, pull_request]
+
+env:
+  solution: 'src\Packager.sln'
+  buildPlatform: Any CPU
+  buildConfiguration: Release
+  version: 0.1.0
+  dotnetSDKVersion: 7.0.202
+  nodeVersion: 19
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
+      with:
+        versionSpec: '5.x'
+
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0
+      with:
+        useConfigFile: true
+
+    - name: 'Show dotnet info'
+      run: dotnet --info
+
+    - name: 'Show dotnet version'
+      run: dotnet --version
+
+    - name: 'NuGet Restore'
+      run: dotnet restore ${{ env.solution }}
+
+    - name: dotnet publish Packager
+      run: dotnet publish -c ${{ env.BuildConfiguration }} Packager.csproj
+      working-directory: src/Packager
+
+    - name: 'Prepare VSIX release: NetCore'
+      run: |
+        mkdir src/AzureDevopsTask/VeracodePackager/tools/net7.0
+        cp -r -u 'src/Packager/bin/Release/net7.0/publish' 'src/AzureDevopsTask/VeracodePackager/tools/net7.0'
+
+    - name: 'Prepare VSIX release: Install TFS Cross Platform Command Line Interface (tfx-cli)'
+      run: npm install -g tfx-cli
+
+    - name: 'Prepare VSIX release: npm install'
+      run: npm install
+      working-directory: src/AzureDevopsTask/VeracodePackager
+
+    - name: 'Prepare VSIX release: Compile TypeScript'
+      run: npx tsc
+      working-directory: src/AzureDevopsTask/VeracodePackager
+
+    - name: Create VSIX release
+      run: tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages
+      working-directory: src/AzureDevopsTask
+
+    - name: 'Prepare ZIP release: mkdir'
+      run: |
+        mkdir tmpzip
+        mkdir tmpzip\net7.0
+
+    - name: 'Prepare ZIP release'
+      run: |
+         cp -r -u 'src/Packager/bin/Release/net7.0/publish/*' 'tmpzip/net7.0'
+
+    - name: 'Pack ZIP release'
+      run: Compress-Archive -Path tmpzip/* -DestinationPath src/target/packages/VeracodePackager_${{ env.Version }}.zip
+
+    - name: 'NuGet pack dotnet-veracodepackager-globaltool'
+      run: dotnet pack .\Packager\Packager.csproj -c Release -o src/target/packages -Version ${{ env.Version }}
+
+    - name: 'Publish Artifact: packages'
+      uses: actions/upload-artifact@v3
+      with:
+        path: src/target/packages
+        name: packages

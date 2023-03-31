@@ -1,0 +1,44 @@
+{
+    "manifestVersion": 1,
+    "id": "veracodepackager",
+    "name": "VeracodePackager",
+    "version": "0.1.0",
+    "publisher": "Robbot",
+    "public": true,
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],    
+    "description": "VeracodePacakger outputs a zip archine containing the necessary files for a Veracode SCA scan.",
+    "categories": [
+        "Azure Pipelines",
+        "Build and release"
+    ],
+    "files": [
+        {
+            "path": "VeracodePackager"
+        }
+    ],
+    "links": {
+        "source": {
+            "uri": "https://github.com/danielpalme/veracode-packager"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/rdurell/veracode-packager"
+    },
+    "contributions": [
+        {
+            "id": "custom-build-release-task",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "veracodepackager"
+            }
+        }
+    ]
+}

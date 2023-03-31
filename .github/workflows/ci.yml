@@ -47,7 +47,7 @@ jobs:
     - name: 'Prepare VSIX release: NetCore'
       run: |
         mkdir -p src/AzureDevOpsTask/VeracodePackager/tools/net7.0
-        cp -r -u 'src/Packager/bin/Release/net7.0/publish/' 'src/AzureDevOpsTask/VeracodePackager/tools/net7.0'
+        cp -r -u 'src/Packager/bin/Release/net7.0/publish/.' 'src/AzureDevOpsTask/VeracodePackager/tools/net7.0'
 
     - name: 'Prepare VSIX release: Install TFS Cross Platform Command Line Interface (tfx-cli)'
       run: npm install -g tfx-cli

@@ -1,0 +1,87 @@
+name: CI-CD
+
+on: [push, pull_request]
+
+env:
+  solution: 'Packager.sln'
+  buildPlatform: Any CPU
+  buildConfiguration: Release
+  version: 0.1.0
+  dotnetSDKVersion: 7.0.202
+  nodeVersion: 19
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0
+      with:
+        versionSpec: '5.x'
+
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0
+      with:
+        useConfigFile: true
+
+    - name: 'Show dotnet info'
+      run: dotnet --info
+
+    - name: 'Show dotnet version'
+      run: dotnet --version
+
+    - name: 'NuGet Restore'
+      run: dotnet restore ${{ env.solution }}
+
+    - name: dotnet publish Packager
+      run: dotnet publish -c ${{ env.buildConfiguration }}
+      working-directory: src/Packager
+
+    - name: 'Prepare VSIX release: NetCore'
+      run: |
+        mkdir -p src/AzureDevOpsTask/VeracodePackager/tools/net7.0
+        cp -r -u 'src/Packager/bin/Release/net7.0/publish/.' 'src/AzureDevOpsTask/VeracodePackager/tools/net7.0'
+
+    - name: 'Prepare VSIX release: Install TFS Cross Platform Command Line Interface (tfx-cli)'
+      run: npm install -g tfx-cli
+
+    - name: 'Prepare VSIX release: npm install'
+      run: npm install
+      working-directory: src/AzureDevOpsTask/VeracodePackager
+
+    - name: 'Prepare release: Compile TypeScript'
+      run: npx tsc
+      working-directory: src/AzureDevOpsTask/VeracodePackager
+
+    - name: Create VSIX release
+      run: tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages
+      working-directory: src/AzureDevOpsTask
+
+    - name: 'Create release target directory'
+      run: |
+        mkdir -p src/target/packages
+
+    - name: 'Pack ZIP release'
+      run: zip -r VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip .
+      working-directory: src/Packager/bin/Release/net7.0/publish
+
+    - name: 'Copy to release target directory'
+      run: |
+        cp src/Packager/bin/Release/net7.0/publish/VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip src/target/packages
+
+    - name: 'NuGet pack dotnet-veracodepackager-globaltool'
+      run: dotnet pack -c Release -o src/target/packages
+      working-directory: src/Packager
+
+    - name: 'Publish Artifact: packages'
+      uses: actions/upload-artifact@v3
+      with:
+        path: src/target/packages
+        name: packages

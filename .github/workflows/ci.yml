@@ -46,23 +46,23 @@ jobs:
 
     - name: 'Prepare VSIX release: NetCore'
       run: |
-        mkdir -p src/AzureDevopsTask/VeracodePackager/tools/net7.0
-        cp -r -u 'src/Packager/bin/Release/net7.0/publish' 'src/AzureDevopsTask/VeracodePackager/tools/net7.0'
+        mkdir -p src/AzureDevOpsTask/VeracodePackager/tools/net7.0
+        cp -r -u 'src/Packager/bin/Release/net7.0/publish' 'src/AzureDevOpsTask/VeracodePackager/tools/net7.0'
 
     - name: 'Prepare VSIX release: Install TFS Cross Platform Command Line Interface (tfx-cli)'
       run: npm install -g tfx-cli
 
     - name: 'Prepare VSIX release: npm install'
       run: npm install
-      working-directory: src/AzureDevopsTask/VeracodePackager
+      working-directory: src/AzureDevOpsTask/VeracodePackager
 
     - name: 'Prepare release: Compile TypeScript'
       run: npx tsc
-      working-directory: src/AzureDevopsTask/VeracodePackager
+      working-directory: src/AzureDevOpsTask/VeracodePackager
 
     - name: Create VSIX release
       run: tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages
-      working-directory: src/AzureDevopsTask
+      working-directory: src/AzureDevOpsTask
 
     - name: 'Prepare ZIP release: mkdir'
       run: |
@@ -73,7 +73,7 @@ jobs:
          cp -r -u 'src/Packager/bin/Release/net7.0/publish/*' 'tmpzip/net7.0'
 
     - name: 'Pack ZIP release'
-      run: Compress-Archive -Path tmpzip/* -DestinationPath src/target/packages/VeracodePackager_${{ env.SemVer }}.zip
+      run: Compress-Archive -Path tmpzip/* -DestinationPath src/target/packages/VeracodePackager_${{ env.GitVersion_FullSemVer }}.zip
 
     - name: 'NuGet pack dotnet-veracodepackager-globaltool'
       run: dotnet pack .\Packager\Packager.csproj -c Release -o src/target/packages

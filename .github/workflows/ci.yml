@@ -41,7 +41,7 @@ jobs:
       run: dotnet restore ${{ env.solution }}
 
     - name: dotnet publish Packager
-      run: dotnet publish -c ${{ env.BuildConfiguration }}
+      run: dotnet publish -c ${{ env.buildConfiguration }}
       working-directory: src/Packager
 
     - name: 'Prepare VSIX release: NetCore'
@@ -73,10 +73,10 @@ jobs:
          cp -r -u 'src/Packager/bin/Release/net7.0/publish/*' 'tmpzip/net7.0'
 
     - name: 'Pack ZIP release'
-      run: Compress-Archive -Path tmpzip/* -DestinationPath src/target/packages/VeracodePackager_${{ env.Version }}.zip
+      run: Compress-Archive -Path tmpzip/* -DestinationPath src/target/packages/VeracodePackager_${{ env.SemVer }}.zip
 
     - name: 'NuGet pack dotnet-veracodepackager-globaltool'
-      run: dotnet pack .\Packager\Packager.csproj -c Release -o src/target/packages -Version ${{ env.Version }}
+      run: dotnet pack .\Packager\Packager.csproj -c Release -o src/target/packages
 
     - name: 'Publish Artifact: packages'
       uses: actions/upload-artifact@v3

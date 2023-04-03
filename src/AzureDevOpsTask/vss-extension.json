@@ -20,6 +20,11 @@
             "path": "VeracodePackager"
         }
     ],
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
     "links": {
         "source": {
             "uri": "https://github.com/danielpalme/veracode-packager"

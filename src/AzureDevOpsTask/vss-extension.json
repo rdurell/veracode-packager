@@ -12,8 +12,7 @@
     ],    
     "description": "VeracodePacakger outputs a zip archine containing the necessary files for a Veracode SCA scan.",
     "categories": [
-        "Azure Pipelines",
-        "Build and release"
+        "Azure Pipelines"
     ],
     "icons": {
         "default": "robbot.png"

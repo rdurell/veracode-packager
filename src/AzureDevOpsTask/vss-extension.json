@@ -15,6 +15,9 @@
         "Azure Pipelines",
         "Build and release"
     ],
+    "icons": {
+        "default": "robbot.png"
+    },
     "files": [
         {
             "path": "VeracodePackager"

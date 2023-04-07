@@ -16,7 +16,7 @@ namespace Robbot.Veracode.Packager
                 
                 getDefaultValue: () => new FileInfo($"{DateTime.Now:yyyyMMddHHmmss}-veracode-package.zip"))
             {
-                Description = "The output file path",
+                Description = "The output file path. The output directory will be created if it does not exist.",
                 IsRequired = false,
                 AllowMultipleArgumentsPerToken = false,
                 Arity = ArgumentArity.ZeroOrOne
@@ -73,6 +73,9 @@ namespace Robbot.Veracode.Packager
             if (outputFile.Exists)
             {
                 outputFile.Delete();
+            } else if(outputFile.Directory != null && !outputFile.Directory.Exists)
+            {
+                outputFile.Directory.Create();
             }
 
             using var zip = ZipFile.Open(outputFile.FullName, ZipArchiveMode.Create);

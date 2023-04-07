@@ -61,7 +61,9 @@ jobs:
       working-directory: src/AzureDevOpsTask/VeracodePackager
 
     - name: Create VSIX release
-      run: tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages
+      run: |
+        versionOverride="{ \"version\" : \"${{ env.GitVersion_FullSemVer }}\" }"
+        tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages --override $versionOverride
       working-directory: src/AzureDevOpsTask
 
     - name: 'Create release target directory'

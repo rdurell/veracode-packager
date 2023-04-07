@@ -62,7 +62,7 @@ jobs:
 
     - name: Create VSIX release
       run: |
-        versionOverride="{ \"version\" : \"${{ env.GitVersion_FullSemVer }}\" }"
+        versionOverride="{ \"version\" : \"${{ env.GitVersion_MajorMinorPatch }}\" }"
         tfx extension create --manifest-globs vss-extension.json --output-path ../target/packages --override $versionOverride
       working-directory: src/AzureDevOpsTask
 
